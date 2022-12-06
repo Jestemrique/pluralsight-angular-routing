@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../../messages/message.service';
 
-import { Product } from '../product';
+import { Product, ProductResolved } from '../product';
 import { ProductService } from '../product.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { ProductService } from '../product.service';
 })
 export class ProductEditComponent implements OnInit{
   pageTitle = 'Product Edit';
-  errorMessage = '';
+  errorMessage? = '';
 
   product: Product | null = null;
 
@@ -22,12 +22,14 @@ export class ProductEditComponent implements OnInit{
               private router: Router) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(
-      params => {
-        const id = Number(params.get('id'));
-        this.getProduct(id);
-      }
-    )
+    this.route.data.subscribe( data => {
+      const resolvedData: ProductResolved = this.route.snapshot.data['resolvedData'];
+      this.errorMessage = resolvedData.error;
+      this.onProductRetrieved(resolvedData.product!);
+    })
+
+
+
   }
 
   getProduct(id: number): void {
