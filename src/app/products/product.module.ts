@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ProductResolver } from './product-resolver.service';
 import { ProductEditTagsComponent } from './product-edit/product-edit-tags.component';
 import { ProductEditInfoComponent } from './product-edit/product-edit-info.component';
+import { AuthGuard } from '../user/auth.guard';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { ProductEditInfoComponent } from './product-edit/product-edit-info.compo
     RouterModule.forChild([
       {
         path: 'products',
+        canActivate: [AuthGuard],
         children: [
           {
             path: '',
