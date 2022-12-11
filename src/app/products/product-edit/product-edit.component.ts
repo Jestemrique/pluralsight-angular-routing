@@ -21,17 +21,16 @@ export class ProductEditComponent implements OnInit{
     return JSON.stringify(this.originalProduct) !== JSON.stringify(this.currentProduct);
   }
 
-  private currentProduct!: Product;
-  private originalProduct!: Product;
+  private currentProduct: Product | null = null;
+  private originalProduct: Product | null = null;
 
-  get product(): Product {
+  get product(): Product | null {
     return this.currentProduct;
   }
-
-  set product(value: Product) {
+  set product(value: Product | null) {
     this.currentProduct = value;
-    //Clone the object to retain a copy
-    this.originalProduct = { ...value };
+    // Clone the object to retain a copy
+    this.originalProduct = value ? { ...value } : null;
   }
 
 
@@ -98,7 +97,7 @@ export class ProductEditComponent implements OnInit{
 
 
   reset(): void {
-    this.dataIsValid = null;
+    this.dataIsValid = {};
     this.currentProduct = null;
     this.originalProduct = null;
   }
